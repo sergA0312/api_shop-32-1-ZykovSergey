@@ -1,4 +1,6 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
+
 
 # Create your models here.
 # product/models.py
@@ -18,8 +20,13 @@ class Product(models.Model):
     def __str__(self):
         return self.title
 
+
 class Review(models.Model):
     text = models.TextField()
+    stars = models.PositiveSmallIntegerField(
+        default=1,
+        validators=[MinValueValidator(1), MaxValueValidator(5)]
+    )
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
     def __str__(self):
