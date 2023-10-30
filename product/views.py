@@ -2,7 +2,7 @@ from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db.models import Avg, Count
-from .models import Category, Product, Review
+from .models import Category, Product, Review, Tag
 from .serializers import CategorySerializer, ProductSerializer, ReviewSerializer
 
 class CategoryList(generics.ListCreateAPIView):
@@ -58,6 +58,17 @@ class CategoryDetailUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
 class ProductCreate(generics.CreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
+    def perform_create(self, serializer):
+        tags = serializer.validated_data.get('tags', [])
+
+        for tag in tags:
+            if not Tag.objects.filter(name=tag.name).exists():
+                # Если тэг не существует, создаем его
+                Tag.objects.create(name=tag.name)
+
+        product = serializer.save()
+        product.tags.set(tags)  # Связываем тэги с товаром
 
 class ProductDetailUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
