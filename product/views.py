@@ -5,30 +5,37 @@ from django.db.models import Avg, Count
 from .models import Category, Product, Review, Tag
 from .serializers import CategorySerializer, ProductSerializer, ReviewSerializer
 
+# Вьюшка для списка категорий и их создания
 class CategoryList(generics.ListCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
+# Вьюшка для деталей категории, обновления и удаления
 class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
+# Вьюшка для списка продуктов и их создания
 class ProductList(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
+# Вьюшка для деталей продукта, обновления и удаления
 class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
+# Вьюшка для списка отзывов и их создания
 class ReviewList(generics.ListCreateAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
+# Вьюшка для деталей отзыва, обновления и удаления
 class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
+# Вьюшка для списка отзывов по продукту
 class ProductReviewsList(APIView):
     def get(self, request, format=None):
         products = Product.objects.all()
@@ -47,14 +54,17 @@ class ProductReviewsList(APIView):
             })
         return Response(product_data)
 
+# Вьюшка для создания категории
 class CategoryCreate(generics.CreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
+# Вьюшка для деталей категории, обновления и удаления
 class CategoryDetailUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
+# Вьюшка для создания продукта
 class ProductCreate(generics.CreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
@@ -70,14 +80,17 @@ class ProductCreate(generics.CreateAPIView):
         product = serializer.save()
         product.tags.set(tags)  # Связываем тэги с товаром
 
+# Вьюшка для деталей продукта, обновления и удаления
 class ProductDetailUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
+# Вьюшка для создания отзыва
 class ReviewCreate(generics.CreateAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
+# Вьюшка для деталей отзыва, обновления и удаления
 class ReviewDetailUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer

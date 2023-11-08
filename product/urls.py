@@ -1,9 +1,12 @@
 from django.urls import path
-from .views import CategoryList, CategoryDetail, ProductList, ReviewList, ReviewDetail, \
-    ProductReviewsList, CategoryCreate, CategoryDetailUpdateDelete, ReviewCreate, ReviewDetailUpdateDelete, \
-    ProductDetailUpdateDelete, ProductCreate, ProductDetail
+from .views import   CategoryList, CategoryDetail, ProductList, ProductDetail, ReviewList, ReviewDetail, ProductReviewsList, CategoryCreate, CategoryDetailUpdateDelete, ProductCreate, ProductDetailUpdateDelete, ReviewCreate, ReviewDetailUpdateDelete
+from accounts.views import SignupAPIView, LoginAPIView, ActivateUser
 
 urlpatterns = [
+    path('signup/', SignupAPIView.as_view(), name='signup'),
+    path('login/', LoginAPIView.as_view(), name='login'),
+    path('activate/<str:code>/', ActivateUser.as_view(), name='activate'),
+
     path('categories/', CategoryList.as_view(), name='category-list'),
     path('categories/<int:pk>/', CategoryDetail.as_view(), name='category-detail'),
     path('products/', ProductList.as_view(), name='product-list'),
